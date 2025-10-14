@@ -1,110 +1,207 @@
-# Solana Bot Package
+# 🎯 BNB Sniper Bot - Four.meme Edition
 
-This Solana Bot Package is designed to automate interactions with the Raydium decentralized exchange and the Solana blockchain. The package includes two main bots: the Raydium Sniper Bot and the Meme Coin Bot. These bots help users efficiently manage their tokens, create markets, and optimize trading strategies.
+Advanced BNB Chain sniper bot for detecting and buying tokens instantly on four.meme platform with MEV support.
 
-https://github.com/user-attachments/assets/e6ddef8e-62f9-41c4-a798-d152c342a59e
+## 🚀 Features
 
-https://github.com/user-attachments/assets/38f71a01-bf3d-43fd-9c0e-9577847683a8
+- **Real-time Token Detection**: Monitors four.meme factory for new token creations
+- **Mempool Monitoring**: Detects tokens in mempool before they're mined (0-block sniping)
+- **MEV Support**: 
+  - Front-running capabilities
+  - Back-running strategies
+  - Precision timing execution
+- **Auto-Buy**: Instantly purchases tokens upon detection
+- **Retry Mechanism**: 3-attempt retry system with exponential backoff
+- **Gas Optimization**: Dynamic gas pricing with configurable limits
+- **Slippage Protection**: Configurable slippage tolerance
+- **Comprehensive Logging**: Winston-based logging with file rotation
 
-## Features
+## 📋 Prerequisites
 
-### 1. Raydium Sniper Bot
+- Node.js v16+ and npm
+- BNB Chain RPC endpoint (Recommended: QuickNode, Ankr, or BSC official)
+- WebSocket endpoint for mempool monitoring
+- Wallet with BNB for trading and gas fees
 
-#### Description:
-The Raydium Sniper Bot aims to catch new pools on Raydium and execute buy/sell transactions to make a profit. It allows for manual and automated trading, giving users the flexibility to optimize their strategies and maximize returns.
+## 🛠️ Installation
 
-#### Features:
-- **Wallet Registration**: Register your own wallet for transactions.
-- **Track New Pools on Raydium**: Monitor new pools and filter them based on SOL amount. Filter feature can be disabled, and if disabled, catch all pools.
-- **Buy and Sell**: 
-  - Manual buy and sell for each pool which tracked.
-  - Show the status of buy/sell on every pools.
-  - Auto buy and sell with specific amount, time delay, profit, and loss percentages.
-  - Jito Mode: Execute transactions with Jito mode, allowing manual adjustment of Jito fees.
+1. **Clone the repository**
+```bash
+git clone <your-repo-url>
+cd Solana-Sniper-Memecoin-Bot
+```
 
-### 2. Meme Coin Bot
+2. **Install dependencies**
+```bash
+npm install
+```
 
-#### Description:
-The Meme Coin Bot is designed to create and manage Raydium pools, handle liquidity, and attract more users. By creating a booming pool with multiple transactions from various wallets, it aims to draw in more users and generate significant profit.
+3. **Configure environment**
+```bash
+cp .env.example .env
+```
 
-#### Features:
-- **Token Creation**: Set meme coin name, symbol, image, decimal, and total supply.
-- **Open Book Market Creation**: Create a market for the newly minted token.
-- **Raydium Pool Creation**: 
-  - Create a Raydium pool from the market newly created.
-  - Set SOL and token amount to deposit to the pool.
-  - Enable/disable burn LP token and freeze wallets that swap tokens.
-- **Wallet Management**: 
-  - Create customized counts of random wallets and distribute SOL and tokens to them.
-  - Airdrop tokens to other wallets for marketing.
-- **Instant Swap After Pool Creation**: 
-  - Perform swaps instantly after pool creation with a customized percentage of SOL amount. These will be the first wallets which buy tokens from the pool.
-- **Management Auto Trading**: 
-  - Set buy amount of SOL per seconds and sell percentage of tokens per seconds. You can customize amount of sol and token, also the duration for each wallet
-  - Start/stop auto trading for each wallet and also show real-time view of sol and token amount for each wallet.
-  - Refund all SOL of wallet to the main wallet after trading.
-- **Withdraw SOL**: Withdraw all SOL from pool, in the case of owning LP tokens, after all trading activities.
+Edit `.env` with your settings:
+```env
+# Blockchain Configuration
+BSC_RPC_URL=https://bsc-dataseed.binance.org/
+BSC_WSS_URL=wss://bsc-dataseed.binance.org/
+CHAIN_ID=56
 
-## Getting Started
+# Wallet Configuration
+PRIVATE_KEY=0xYourPrivateKeyHere
+WALLET_ADDRESS=0xYourWalletAddress
 
-To use this Solana Bot Package, you will need to have a basic understanding of Solana, Raydium, and automated trading. Follow the instructions below to get started:
+# Trading Configuration
+BUY_AMOUNT=0.1
+SLIPPAGE_BPS=100
+GAS_LIMIT=500000
+MAX_GAS_PRICE=10
 
-1. **Clone the Repository**: 
-   ```bash
-   git clone https://github.com/justshiftjk/Solana-Sniper-Memecoin-Bot
-   ```
-2. **Install Dependencies**:
-   ```bash
-   cd Solana-Sniper-Memecoin-Bot
-   npm install
-   ```
-3. **Configure Your Wallet**: Update the configuration file with your wallet details and desired settings.
+# Four.meme Configuration
+FOUR_MEME_FACTORY_ADDRESS=0x...
+FOUR_MEME_ROUTER_ADDRESS=0x...
 
-4. **Run the Bots**:
-     ```bash
-     npm run start
-     ```
+# MEV Configuration
+ENABLE_FRONTRUN=true
+ENABLE_BACKRUN=true
+```
 
-## Configuration Guide
+4. **Build the project**
+```bash
+npm run build
+```
 
-### Frontend Configuration
-Update the following environment variables in your frontend `.env` file:
+## 🎮 Usage
 
-- `VITE_SERVER_URL=`: Set this to your backend server URL.
-- `VITE_RPC_URL=`: Define your RPC URL.
-- `VITE_DEV_RPC_URL=`: Define your development RPC URL.
-- `VITE_PINATA_API_KEY=`: Set your Pinata API key.
-- `VITE_PINATA_URL=`: Set your Pinata URL.
+### Start the Bot
 
-### Backend Configuration
-Update the following environment variables in your backend `.env` file:
+**Development mode (with hot reload):**
+```bash
+npm run dev
+```
 
-- `MONGO_URL=`: Your MongoDB URL.
-- `RPC_ENDPOINT=`: Define your RPC endpoint.
-- `WEBSOCKET_ENDPOINT=`: Define your WebSocket endpoint.
-- `RPC_SUB_ENDPOINT=`: Define your RPC subscription endpoint.
-- `WEBSOCKET_SUB_ENDPOINT=`: Define your WebSocket subscription endpoint.
-- `DEV_NET_RPC=`: Define your development network RPC.
-- `DEV_NET_WSS=`: Define your development network WebSocket.
-- `DEV_NET_SUB_RPC=`: Define your development network subscription RPC.
-- `DEV_NET_SUB_WSS=`: Define your development network subscription WebSocket.
-- `LOG_LEVEL=info`: Set the log level.
-- `BLOCKENGINE_URL=`: Define your BlockEngine URL.
-- `JITO_FEE=`: Set your Jito fee.
-- `JITO_KEY=`: Set your Jito key.
-- `CHECK_IF_MINT_IS_MUTABLE=`: Set this to true or false to check if mint is mutable.
-- `CHECK_IF_MINT_IS_BURNED=`: Set this to true or false to check if mint is burned.
-- `CHECK_IF_MINT_IS_FROZEN=`: Set this to true or false to check if mint is frozen.
-- `CHECK_IF_MINT_IS_RENOUNCED=`: Set this to true or false to check if mint is renounced.
-- `COMMITMENT_LEVEL=`: Set the commitment level.
-- `ORIGIN_URL=`: The frontend URL for allowing CORS.
+**Production mode:**
+```bash
+npm run build
+npm start
+```
 
-## Contributions
-Contributions are welcome! Feel free to open issues and submit PRs.
+### Expected Output
 
-## Note
-This repo includes only sniping part due to the security problem.
-If you have any questions or want more customized app for specific use cases, please feel free to contact me to below contacts.
+```
+╔═══════════════════════════════════════════════════════════╗
+║                                                           ║
+║           🎯 BNB SNIPER BOT - FOUR.MEME 🎯              ║
+║                                                           ║
+║         High-Speed Token Sniper with MEV Support          ║
+║                                                           ║
+╚═══════════════════════════════════════════════════════════╝
 
-- E-Mail: adamglab0731.pl@gmail.com
-- Telegram: [@bettyjk_0915](https://t.me/bettyjk_0915)
+2024-01-01 12:00:00 [info]: Validating configuration...
+2024-01-01 12:00:00 [info]: ✅ Configuration valid
+2024-01-01 12:00:00 [info]: 🚀 Starting BNB Sniper Bot...
+2024-01-01 12:00:00 [info]: ⚙️  Configuration:
+2024-01-01 12:00:00 [info]:    Chain ID: 56
+2024-01-01 12:00:00 [info]:    Wallet: 0x...
+2024-01-01 12:00:00 [info]:    Balance: 1.5 BNB
+2024-01-01 12:00:00 [info]:    Buy Amount: 0.1 BNB
+2024-01-01 12:00:00 [info]:    Slippage: 1%
+2024-01-01 12:00:00 [info]:    Frontrun: ENABLED
+```
+
+## 📁 Project Structure
+
+```
+├── src/
+│   ├── bot/
+│   │   └── sniperBot.ts        # Main bot logic
+│   ├── config/
+│   │   └── index.ts            # Configuration management
+│   ├── contracts/
+│   │   └── abis.ts             # Smart contract ABIs
+│   ├── services/
+│   │   ├── tokenMonitor.ts     # Token creation monitoring
+│   │   ├── mevExecutor.ts      # MEV execution strategies
+│   │   └── tradeExecutor.ts    # Trade execution logic
+│   ├── types/
+│   │   └── index.ts            # TypeScript type definitions
+│   ├── utils/
+│   │   ├── logger.ts           # Logging utility
+│   │   └── web3Provider.ts     # Web3 connection management
+│   └── index.ts                # Entry point
+├── logs/                       # Log files
+├── .env                        # Environment configuration
+├── package.json
+└── tsconfig.json
+```
+
+## ⚙️ Configuration
+
+### Trading Parameters
+
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `BUY_AMOUNT` | BNB amount to spend per trade | 0.1 |
+| `SLIPPAGE_BPS` | Slippage tolerance in basis points (100 = 1%) | 100 |
+| `GAS_LIMIT` | Maximum gas limit per transaction | 500000 |
+| `GAS_PRICE_MULTIPLIER` | Gas price multiplier for faster inclusion | 1.2 |
+| `MAX_GAS_PRICE` | Maximum gas price in GWEI | 10 |
+
+### MEV Configuration
+
+- **ENABLE_FRONTRUN**: Execute transactions before target transaction
+- **ENABLE_BACKRUN**: Execute transactions immediately after target
+- **MEV_SHARE_PERCENTAGE**: Percentage of MEV profit to keep (80 = 80%)
+
+## 🔐 Security
+
+- **Private Key Security**: Never commit `.env` file or expose private keys
+- **Gas Limits**: Bot has configurable gas limits to prevent runaway costs
+- **Balance Validation**: Checks wallet balance before each trade
+- **Slippage Protection**: Configurable slippage to prevent sandwich attacks
+- **Error Handling**: Comprehensive error handling and logging
+
+## ⚠️ Risks & Disclaimers
+
+**WARNING: This bot is for educational purposes. Use at your own risk.**
+
+- **Financial Risk**: You can lose all invested funds
+- **Smart Contract Risk**: New tokens may be malicious or honeypots
+- **MEV Risk**: Front-running/back-running can fail and waste gas
+- **Gas Costs**: Failed transactions still consume gas fees
+- **Market Risk**: Extreme volatility in memecoin markets
+
+**Always:**
+- Test on BSC testnet first
+- Start with small amounts
+- Monitor bot activity
+- Understand the code before running
+
+
+
+## 📊 Performance Tips
+
+1. **Use Premium RPC**: QuickNode or Ankr for faster response times
+2. **Enable Mempool**: WSS endpoint enables 0-block detection
+3. **Optimize Gas**: Balance between speed and cost
+4. **MEV Strategy**: Test frontrun vs backrun for your use case
+5. **Multiple Wallets**: Distribute across wallets to avoid nonce conflicts
+
+## 🤝 Contributing
+
+Contributions are welcome! Please:
+1. Fork the repository
+2. Create feature branch
+3. Test thoroughly on testnet
+4. Submit pull request
+
+
+## 📩 Contact  
+For inquiries, custom integrations, or tailored solutions, reach out via:  
+
+📧 **E-Mail**: [adamglab0731.pl@gmail.com](mailto:adamglab0731.pl@gmail.com)  
+💬 **Telegram**: [@bettyjk_0915](https://t.me/bettyjk_0915)
+
+---
+
